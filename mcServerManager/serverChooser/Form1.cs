@@ -54,20 +54,6 @@ namespace serverChooser
 
                 }
                 sr.Close();
-                line = "Template Server";
-
-
-                //create name
-                name = String.Format(number.ToString());
-                //check name
-                if (serverList.ContainsKey(name))
-                {
-                    serverList[name] = number.ToString();
-                }
-                else
-                {
-                    serverList.Add(name, line);
-                }
 
 
 

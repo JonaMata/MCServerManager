@@ -14,14 +14,15 @@ namespace serverChooser
     public partial class Form1 : Form
     {
         Dictionary<String, String> serverList = new Dictionary<String, String>();
+        String line;
+        int number = 1;
+        String name;
         public Form1()
         {
             InitializeComponent();
 
             
-            String line;
-            var number = 1;
-            String name;
+            
             try
             {
                 StreamReader sr = new StreamReader("serverList.txt");
@@ -116,11 +117,33 @@ namespace serverChooser
                 sw.WriteLine();
                 sw.Write(addServerTextBox.Text);
                 sw.Close();
+
+                //create name
+                name = String.Format(number.ToString());
+                //check name
+                if (serverList.ContainsKey(name))
+                {
+                    serverList[name] = number.ToString();
+                }
+                else
+                {
+                    serverList.Add(name, addServerTextBox.Text);
+                }
+
+                
+                number += 1;
+
+
             }
+
+
             finally
             {
-                
+                serverListBox.DataSource = new BindingSource(serverList, null);
+                serverListBox.DisplayMember = "Value";
+                serverListBox.ValueMember = "Value";
                 selectedServerLabel.Text = addServerTextBox.Text;
+                addServerTextBox.Text = null;
             }
         }
     }

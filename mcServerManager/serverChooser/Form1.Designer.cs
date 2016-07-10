@@ -31,7 +31,12 @@
             this.serverListBox = new System.Windows.Forms.ListBox();
             this.selectedServerLabel = new System.Windows.Forms.Label();
             this.addServerButton = new System.Windows.Forms.Button();
+            this.startServerButton = new System.Windows.Forms.Button();
+            this.updateServerButton = new System.Windows.Forms.Button();
+            this.serverPortTextBox = new wmgCMS.WaterMarkTextBox();
             this.addServerTextBox = new wmgCMS.WaterMarkTextBox();
+            this.updateServerProgressBar = new System.Windows.Forms.ProgressBar();
+            this.deleteServerButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // serverListBox
@@ -53,13 +58,43 @@
             // 
             // addServerButton
             // 
-            this.addServerButton.Location = new System.Drawing.Point(197, 226);
+            this.addServerButton.Location = new System.Drawing.Point(178, 226);
             this.addServerButton.Name = "addServerButton";
-            this.addServerButton.Size = new System.Drawing.Size(75, 23);
+            this.addServerButton.Size = new System.Drawing.Size(94, 23);
             this.addServerButton.TabIndex = 5;
             this.addServerButton.Text = "Add Server";
             this.addServerButton.UseVisualStyleBackColor = true;
             this.addServerButton.Click += new System.EventHandler(this.addServerButton_Click);
+            // 
+            // startServerButton
+            // 
+            this.startServerButton.Location = new System.Drawing.Point(178, 49);
+            this.startServerButton.Name = "startServerButton";
+            this.startServerButton.Size = new System.Drawing.Size(94, 23);
+            this.startServerButton.TabIndex = 7;
+            this.startServerButton.Text = "Start Server";
+            this.startServerButton.UseVisualStyleBackColor = true;
+            this.startServerButton.Click += new System.EventHandler(this.startServerButton_Click);
+            // 
+            // updateServerButton
+            // 
+            this.updateServerButton.Location = new System.Drawing.Point(178, 104);
+            this.updateServerButton.Name = "updateServerButton";
+            this.updateServerButton.Size = new System.Drawing.Size(94, 23);
+            this.updateServerButton.TabIndex = 8;
+            this.updateServerButton.Text = "Update Server";
+            this.updateServerButton.UseVisualStyleBackColor = true;
+            this.updateServerButton.Click += new System.EventHandler(this.updateServerButton_Click);
+            // 
+            // serverPortTextBox
+            // 
+            this.serverPortTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.serverPortTextBox.Location = new System.Drawing.Point(178, 78);
+            this.serverPortTextBox.Name = "serverPortTextBox";
+            this.serverPortTextBox.Size = new System.Drawing.Size(94, 20);
+            this.serverPortTextBox.TabIndex = 9;
+            this.serverPortTextBox.WaterMarkColor = System.Drawing.Color.Gray;
+            this.serverPortTextBox.WaterMarkText = "Server Port";
             // 
             // addServerTextBox
             // 
@@ -71,11 +106,33 @@
             this.addServerTextBox.WaterMarkColor = System.Drawing.Color.Gray;
             this.addServerTextBox.WaterMarkText = "Type server name here...";
             // 
+            // updateServerProgressBar
+            // 
+            this.updateServerProgressBar.Location = new System.Drawing.Point(178, 134);
+            this.updateServerProgressBar.Name = "updateServerProgressBar";
+            this.updateServerProgressBar.Size = new System.Drawing.Size(94, 13);
+            this.updateServerProgressBar.TabIndex = 10;
+            // 
+            // deleteServerButton
+            // 
+            this.deleteServerButton.Location = new System.Drawing.Point(178, 188);
+            this.deleteServerButton.Name = "deleteServerButton";
+            this.deleteServerButton.Size = new System.Drawing.Size(94, 23);
+            this.deleteServerButton.TabIndex = 11;
+            this.deleteServerButton.Text = "Delete Server";
+            this.deleteServerButton.UseVisualStyleBackColor = true;
+            this.deleteServerButton.Click += new System.EventHandler(this.deleteServerButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.deleteServerButton);
+            this.Controls.Add(this.updateServerProgressBar);
+            this.Controls.Add(this.serverPortTextBox);
+            this.Controls.Add(this.updateServerButton);
+            this.Controls.Add(this.startServerButton);
             this.Controls.Add(this.addServerTextBox);
             this.Controls.Add(this.addServerButton);
             this.Controls.Add(this.selectedServerLabel);
@@ -92,6 +149,11 @@
         private System.Windows.Forms.Label selectedServerLabel;
         private System.Windows.Forms.Button addServerButton;
         private wmgCMS.WaterMarkTextBox addServerTextBox;
+        private System.Windows.Forms.Button startServerButton;
+        private System.Windows.Forms.Button updateServerButton;
+        private wmgCMS.WaterMarkTextBox serverPortTextBox;
+        private System.Windows.Forms.ProgressBar updateServerProgressBar;
+        private System.Windows.Forms.Button deleteServerButton;
     }
 }
 

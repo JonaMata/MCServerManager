@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Net;
+using static serverChooser.filepaths;
 
 namespace serverChooser
 {
@@ -17,21 +19,47 @@ namespace serverChooser
         String line;
         int number = 1;
         String name;
+        public static buildtools bt;
+        public static server sv;
+
         public Form1()
         {
             InitializeComponent();
+            this.Text = "Server Chooser";
+            AcceptButton = addServerButton;
+            addServerTextBox.Cursor = Cursors.IBeam;
+
+            refreshServers();
 
             
-            
+
+
+
+        }
+
+        private void refreshServers()
+        {
+            //clear listbox and dictionary
+            serverListBox.DataSource = null;
+            serverList.Clear();
+
+
             try
             {
                 StreamReader sr = new StreamReader("serverList.txt");
                 line = sr.ReadLine();
                 number = 1;
-                
+
 
                 while (line != null)
                 {
+                    //Check if directory exists, if not create one
+                    if (Directory.Exists(string.Format(@"{0}\server\{1}", Environment.CurrentDirectory, line))) { }
+                    else
+                    {
+                        Directory.CreateDirectory(string.Format(@"{0}\servers\{1}", Environment.CurrentDirectory, line));
+                    }
+
 
                     //create name
                     name = String.Format(number.ToString());
@@ -83,15 +111,10 @@ namespace serverChooser
 
             finally
             {
-                selectedServerLabel.Text = null;
+                selectedServerLabel.Text = serverListBox.SelectedValue.ToString();
                 Console.WriteLine("Executing finally block.");
             }
-
-
-
         }
-
-
 
         private void serverListBox_SelectedValueChanged(object sender, EventArgs e)
         {
@@ -113,25 +136,35 @@ namespace serverChooser
         {
             try
             {
-                StreamWriter sw = File.AppendText("serverList.txt");
-                sw.WriteLine();
-                sw.Write(addServerTextBox.Text);
-                sw.Close();
-
-                //create name
-                name = String.Format(number.ToString());
-                //check name
-                if (serverList.ContainsKey(name))
+                //Check if directory exists, if not create one
+                if (Directory.Exists(string.Format(@"{0}\servers\{1}", Environment.CurrentDirectory, line)))
                 {
-                    serverList[name] = number.ToString();
+                    MessageBox.Show("This server already exists!", "Error!");
                 }
                 else
                 {
-                    serverList.Add(name, addServerTextBox.Text);
-                }
+                    StreamWriter sw = File.AppendText("serverList.txt");
+                    sw.WriteLine();
+                    sw.Write(addServerTextBox.Text);
+                    sw.Close();
 
+                    //create name
+                    name = String.Format(number.ToString());
+                    //check name
+                    if (serverList.ContainsKey(name))
+                    {
+                        serverList[name] = number.ToString();
+                    }
+                    else
+                    {
+                        serverList.Add(name, addServerTextBox.Text);
+                    }
+
+
+                    number += 1;
+                    Directory.CreateDirectory(string.Format(@"{0}\servers\{1}", Environment.CurrentDirectory, addServerTextBox.Text));
+                }
                 
-                number += 1;
 
 
             }
@@ -143,7 +176,62 @@ namespace serverChooser
                 serverListBox.DisplayMember = "Value";
                 serverListBox.ValueMember = "Value";
                 selectedServerLabel.Text = addServerTextBox.Text;
+                serverListBox.SelectedValue = addServerTextBox.Text;
                 addServerTextBox.Text = null;
+            }
+        }
+
+        private void startServerButton_Click(object sender, EventArgs e)
+        {
+            path.spigot = string.Format(@"{0}\servers\{1}\spigot.jar", Environment.CurrentDirectory, selectedServerLabel.Text);
+            path.java = string.Format(@"{0}\java\bin\java.exe", Environment.CurrentDirectory);
+            if (File.Exists(path.spigot))
+            {
+                sv = new server();
+                sv.Show();
+            }
+            else
+            {
+                MessageBox.Show("spigot file doesn't exist, please update this server before running.", "No spigot file!");
+            }
+        }
+
+        private void updateServerButton_Click(object sender, EventArgs e)
+        {
+            dir.server = string.Format(@"{0}\servers\{1}\", Environment.CurrentDirectory, selectedServerLabel.Text);
+            path.buildtools = string.Format("{0}/servers/{1}/BuildTools.jar", Environment.CurrentDirectory ,selectedServerLabel.Text);
+
+            bt = new buildtools();
+            bt.Show();
+        }
+        
+        private void downloadProgress(object sender, DownloadProgressChangedEventArgs e)
+        {
+            updateServerProgressBar.Value = e.ProgressPercentage;
+        }
+
+        private void deleteServerButton_Click(object sender, EventArgs e)
+        {
+            if (selectedServerLabel.Text != null)
+            {
+                string deleteServer = selectedServerLabel.Text;
+                DialogResult deleteCheck = MessageBox.Show(string.Format("Are you sure you want to delete {0}?", deleteServer), "Delete!", MessageBoxButtons.YesNo);
+                if (deleteCheck == DialogResult.Yes)
+                {
+                    DirectoryInfo deleteDir = new DirectoryInfo(string.Format(@"{0}\servers\{1}\", Environment.CurrentDirectory, deleteServer));
+
+                    foreach (FileInfo file in deleteDir.GetFiles())
+                    {
+                        file.Delete();
+                    }
+                    foreach (DirectoryInfo dir in deleteDir.GetDirectories())
+                    {
+                        dir.Delete(true);
+                    }
+                    Directory.Delete(string.Format(@"{0}\servers\{1}\", Environment.CurrentDirectory, deleteServer), true);
+                    File.WriteAllLines("serverList.txt", File.ReadLines("serverList.txt").Where(l => l != deleteServer).ToList());
+                    refreshServers();
+                }
             }
         }
     }

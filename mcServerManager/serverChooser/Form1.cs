@@ -193,6 +193,7 @@ namespace serverChooser
 
         private void startServerButton_Click(object sender, EventArgs e)
         {
+            dir.server = string.Format(@"{0}\servers\{1}\", Environment.CurrentDirectory, selectedServerLabel.Text);
             path.spigot = string.Format(@"{0}\servers\{1}\spigot.jar", Environment.CurrentDirectory, selectedServerLabel.Text);
             path.java = string.Format(@"{0}\java\bin\java.exe", Environment.CurrentDirectory);
             if (File.Exists(path.spigot))

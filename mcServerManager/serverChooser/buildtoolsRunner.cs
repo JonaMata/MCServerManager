@@ -63,6 +63,12 @@ namespace serverChooser
                     {
                         if (succes)
                         {
+                            string[] currentSpigotFile = Directory.GetFiles(dir.server, "spigot*");
+                            foreach (string file in currentSpigotFile)
+                            {
+                                File.Delete(path.spigot);
+                                File.Move(file, path.spigot);
+                            }
                             bt.AppendRawText("Server update finished suucesfully!");
                             _disposables.Remove(buildProcess);
                         }

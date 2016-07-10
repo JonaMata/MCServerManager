@@ -37,7 +37,7 @@ namespace serverChooser
                     {
                         buildProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                         buildProcess.StartInfo.CreateNoWindow = true;
-                        buildProcess.StartInfo.FileName = "./git1//bin/bash.exe";
+                        buildProcess.StartInfo.FileName = "./git//bin/bash.exe";
                         buildProcess.StartInfo.UseShellExecute = false;
                         buildProcess.StartInfo.RedirectStandardOutput = true;
                         buildProcess.StartInfo.RedirectStandardError = true;

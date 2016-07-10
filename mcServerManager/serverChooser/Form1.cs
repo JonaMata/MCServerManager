@@ -47,41 +47,45 @@ namespace serverChooser
             try
             {
                 StreamReader sr = new StreamReader("serverList.txt");
+                sr.ReadLine();
                 line = sr.ReadLine();
                 number = 1;
 
-
-                while (line != null)
+                if (line != null)
                 {
-                    //Check if directory exists, if not create one
-                    if (Directory.Exists(string.Format(@"{0}\server\{1}", Environment.CurrentDirectory, line))) { }
-                    else
+                    while (line != null)
                     {
-                        Directory.CreateDirectory(string.Format(@"{0}\servers\{1}", Environment.CurrentDirectory, line));
+                        //Check if directory exists, if not create one
+                        if (Directory.Exists(string.Format(@"{0}\server\{1}", Environment.CurrentDirectory, line))) { }
+                        else
+                        {
+                            Directory.CreateDirectory(string.Format(@"{0}\servers\{1}", Environment.CurrentDirectory, line));
+                        }
+
+
+                        //create name
+                        name = String.Format(number.ToString());
+                        //check name
+                        if (serverList.ContainsKey(name))
+                        {
+                            serverList[name] = number.ToString();
+                        }
+                        else
+                        {
+                            serverList.Add(name, line);
+                        }
+
+
+                        line = sr.ReadLine();
+                        number += 1;
+
+
+
+
+
                     }
-
-
-                    //create name
-                    name = String.Format(number.ToString());
-                    //check name
-                    if (serverList.ContainsKey(name))
-                    {
-                        serverList[name] = number.ToString();
-                    }
-                    else
-                    {
-                        serverList.Add(name, line);
-                    }
-
-
-                    line = sr.ReadLine();
-                    number += 1;
-
-
-
-
-
                 }
+                
                 sr.Close();
 
 
@@ -101,9 +105,16 @@ namespace serverChooser
                 //Console.WriteLine();
                 //Console.WriteLine("You chose the {0}.", serverList[server]);
                 //Console.ReadLine();
-                serverListBox.DataSource = new BindingSource(serverList, null);
-                serverListBox.DisplayMember = "Value";
-                serverListBox.ValueMember = "Value";
+                if (serverList.ContainsKey("1"))
+                {
+                    serverListBox.DataSource = new BindingSource(serverList, null);
+                    serverListBox.DisplayMember = "Value";
+                    serverListBox.ValueMember = "Value";
+                    selectedServerLabel.Text = serverListBox.SelectedValue.ToString();
+                }
+                else
+                    selectedServerLabel.Text = null;
+                
 
             }
 
@@ -111,7 +122,6 @@ namespace serverChooser
 
             finally
             {
-                selectedServerLabel.Text = serverListBox.SelectedValue.ToString();
                 Console.WriteLine("Executing finally block.");
             }
         }
@@ -137,7 +147,7 @@ namespace serverChooser
             try
             {
                 //Check if directory exists, if not create one
-                if (Directory.Exists(string.Format(@"{0}\servers\{1}", Environment.CurrentDirectory, line)))
+                if (Directory.Exists(string.Format(@"{0}\servers\{1}", Environment.CurrentDirectory, addServerTextBox.Text)))
                 {
                     MessageBox.Show("This server already exists!", "Error!");
                 }

@@ -14,6 +14,8 @@ namespace serverChooser
             public static string buildtools;
             public static string spigot;
             public static string java;
+            public static string eula;
+            public static string properties;
         }
 
         public static class dir
@@ -21,6 +23,10 @@ namespace serverChooser
             public static string server;
         }
 
+        public static class serverInfo
+        {
+            public static string port;
+        }
        
     }
 }

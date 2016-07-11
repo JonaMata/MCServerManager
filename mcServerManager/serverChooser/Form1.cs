@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Net;
+using System.Diagnostics;
 using static serverChooser.filepaths;
 
 namespace serverChooser
@@ -28,7 +29,7 @@ namespace serverChooser
             this.Text = "Server Chooser";
             AcceptButton = addServerButton;
             addServerTextBox.Cursor = Cursors.IBeam;
-
+            serverInfo.port = "25565";
             refreshServers();
 
             
@@ -193,11 +194,21 @@ namespace serverChooser
 
         private void startServerButton_Click(object sender, EventArgs e)
         {
-            dir.server = string.Format(@"{0}\servers\{1}\", Environment.CurrentDirectory, selectedServerLabel.Text);
-            path.spigot = string.Format(@"{0}\servers\{1}\spigot.jar", Environment.CurrentDirectory, selectedServerLabel.Text);
+            string selectedServer = selectedServerLabel.Text;
+            dir.server = string.Format(@"{0}\servers\{1}\", Environment.CurrentDirectory, selectedServer);
+            path.spigot = string.Format(@"{0}\servers\{1}\spigot.jar", Environment.CurrentDirectory, selectedServer);
             path.java = string.Format(@"{0}\java\bin\java.exe", Environment.CurrentDirectory);
+            path.eula = string.Format(@"{0}\servers\{1}\eula.txt", Environment.CurrentDirectory, selectedServer);
             if (File.Exists(path.spigot))
             {
+                if (File.ReadLines(path.eula).Any(line => line.Contains("eula=false")))
+                {
+                    DialogResult eulaAccept = MessageBox.Show("Do want to agree to the eula? \n https://account.mojang.com/documents/minecraft_eula", "EULA ERROR!", MessageBoxButtons.YesNo);
+                    if (eulaAccept == DialogResult.Yes)
+                        File.WriteAllText(path.eula, File.ReadAllText(path.eula).Replace("eula=false", "eula=true"));
+                }
+                serverInfo.port = serverPortTextBox.Text;
+                serverPortTextBox.Text = null;
                 sv = new server();
                 sv.Show();
             }
@@ -243,6 +254,20 @@ namespace serverChooser
                     File.WriteAllLines("serverList.txt", File.ReadLines("serverList.txt").Where(l => l != deleteServer).ToList());
                     refreshServers();
                 }
+            }
+        }
+
+        private void editPropertiesButton_Click(object sender, EventArgs e)
+        {
+            string selectedServer = selectedServerLabel.Text;
+            path.properties = string.Format(@"{0}\servers\{1}\server.properties", Environment.CurrentDirectory, selectedServer);
+            if (File.Exists(path.properties))
+            {
+                Process.Start("notepad.exe", path.properties);
+            }
+            else
+            {
+                MessageBox.Show("server.properties doesn't exist, please update your server first.", "ERROR!");
             }
         }
     }

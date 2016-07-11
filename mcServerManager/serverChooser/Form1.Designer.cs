@@ -37,6 +37,7 @@
             this.addServerTextBox = new wmgCMS.WaterMarkTextBox();
             this.updateServerProgressBar = new System.Windows.Forms.ProgressBar();
             this.deleteServerButton = new System.Windows.Forms.Button();
+            this.editPropertiesButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // serverListBox
@@ -123,11 +124,22 @@
             this.deleteServerButton.UseVisualStyleBackColor = true;
             this.deleteServerButton.Click += new System.EventHandler(this.deleteServerButton_Click);
             // 
+            // editPropertiesButton
+            // 
+            this.editPropertiesButton.Location = new System.Drawing.Point(178, 154);
+            this.editPropertiesButton.Name = "editPropertiesButton";
+            this.editPropertiesButton.Size = new System.Drawing.Size(94, 23);
+            this.editPropertiesButton.TabIndex = 12;
+            this.editPropertiesButton.Text = "Edit Properties";
+            this.editPropertiesButton.UseVisualStyleBackColor = true;
+            this.editPropertiesButton.Click += new System.EventHandler(this.editPropertiesButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.editPropertiesButton);
             this.Controls.Add(this.deleteServerButton);
             this.Controls.Add(this.updateServerProgressBar);
             this.Controls.Add(this.serverPortTextBox);
@@ -154,6 +166,7 @@
         private wmgCMS.WaterMarkTextBox serverPortTextBox;
         private System.Windows.Forms.ProgressBar updateServerProgressBar;
         private System.Windows.Forms.Button deleteServerButton;
+        private System.Windows.Forms.Button editPropertiesButton;
     }
 }
 

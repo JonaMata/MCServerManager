@@ -43,7 +43,7 @@ namespace serverChooser
                     buildProcess.StartInfo.RedirectStandardInput = true;
                     buildProcess.StartInfo.WorkingDirectory = dir.server;
                     buildProcess.StartInfo.Arguments =
-                        string.Format(" -jar \"{0}\"", path.spigot);
+                        string.Format(" -jar \"{0}\" -p " + serverInfo.port, path.spigot);
                     buildProcess.OutputDataReceived += (sender, args) => sv.AppendRawText(args.Data);
                     buildProcess.ErrorDataReceived += (sender, args) => sv.AppendRawText(args.Data);
                     buildProcess.Start();
@@ -52,7 +52,7 @@ namespace serverChooser
                     buildProcess.BeginErrorReadLine();
                     buildProcess.WaitForExit();
                     if (buildProcess.ExitCode != 0)
-                        throw new Exception();
+                        throw new Exception(buildProcess.ExitCode.ToString());
                 }
                 catch (Exception e)
                 {

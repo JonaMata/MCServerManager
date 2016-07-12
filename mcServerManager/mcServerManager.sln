@@ -1,18 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "serverChooser", "serverChooser\serverChooser.csproj", "{3083457F-20BF-42D2-B701-545B9F7D4494}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCServerManager", "serverChooser\MCServerManager.csproj", "{3083457F-20BF-42D2-B701-545B9F7D4494}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		HockeyApp|Any CPU = HockeyApp|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{3083457F-20BF-42D2-B701-545B9F7D4494}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3083457F-20BF-42D2-B701-545B9F7D4494}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3083457F-20BF-42D2-B701-545B9F7D4494}.HockeyApp|Any CPU.ActiveCfg = HockeyApp|Any CPU
+		{3083457F-20BF-42D2-B701-545B9F7D4494}.HockeyApp|Any CPU.Build.0 = HockeyApp|Any CPU
 		{3083457F-20BF-42D2-B701-545B9F7D4494}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3083457F-20BF-42D2-B701-545B9F7D4494}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

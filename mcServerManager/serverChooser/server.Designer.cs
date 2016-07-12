@@ -1,4 +1,4 @@
-﻿namespace serverChooser
+﻿namespace MCServerManager
 {
     partial class server
     {
@@ -60,7 +60,7 @@
             this.Controls.Add(this.inputTextBox);
             this.Controls.Add(this.serverBox);
             this.Name = "server";
-            this.Text = "server";
+            this.Text = "Server Runner";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormClosedEventHandler);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using static serverChooser.filepaths;
+using static MCServerManager.filepaths;
 
-namespace serverChooser
+namespace MCServerManager
 {
     class serverRunner
     {
@@ -16,7 +16,7 @@ namespace serverChooser
 
         private readonly HashSet<IDisposable> _disposables = new HashSet<IDisposable>();
 
-        public Process buildProcess;
+        public Process serverProcess;
 
         StreamWriter inputWriter;
 
@@ -29,30 +29,30 @@ namespace serverChooser
 
         public void runServer()
         {
-            using (buildProcess = new Process())
+            using (serverProcess = new Process())
             {
-                _disposables.Add(buildProcess);
+                _disposables.Add(serverProcess);
                 try
                 {
-                    buildProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                    buildProcess.StartInfo.CreateNoWindow = true;
-                    buildProcess.StartInfo.FileName = path.java;
-                    buildProcess.StartInfo.UseShellExecute = false;
-                    buildProcess.StartInfo.RedirectStandardOutput = true;
-                    buildProcess.StartInfo.RedirectStandardError = true;
-                    buildProcess.StartInfo.RedirectStandardInput = true;
-                    buildProcess.StartInfo.WorkingDirectory = dir.server;
-                    buildProcess.StartInfo.Arguments =
+                    serverProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                    serverProcess.StartInfo.CreateNoWindow = true;
+                    serverProcess.StartInfo.FileName = path.java;
+                    serverProcess.StartInfo.UseShellExecute = false;
+                    serverProcess.StartInfo.RedirectStandardOutput = true;
+                    serverProcess.StartInfo.RedirectStandardError = true;
+                    serverProcess.StartInfo.RedirectStandardInput = true;
+                    serverProcess.StartInfo.WorkingDirectory = dir.server;
+                    serverProcess.StartInfo.Arguments =
                         string.Format(" -jar \"{0}\" -p " + serverInfo.port, path.spigot);
-                    buildProcess.OutputDataReceived += (sender, args) => sv.AppendRawText(args.Data);
-                    buildProcess.ErrorDataReceived += (sender, args) => sv.AppendRawText(args.Data);
-                    buildProcess.Start();
-                    inputWriter = buildProcess.StandardInput;
-                    buildProcess.BeginOutputReadLine();
-                    buildProcess.BeginErrorReadLine();
-                    buildProcess.WaitForExit();
-                    if (buildProcess.ExitCode != 0)
-                        throw new Exception(buildProcess.ExitCode.ToString());
+                    serverProcess.OutputDataReceived += (sender, args) => sv.AppendRawText(args.Data);
+                    serverProcess.ErrorDataReceived += (sender, args) => sv.AppendRawText(args.Data);
+                    serverProcess.Start();
+                    inputWriter = serverProcess.StandardInput;
+                    serverProcess.BeginOutputReadLine();
+                    serverProcess.BeginErrorReadLine();
+                    serverProcess.WaitForExit();
+                    if (serverProcess.ExitCode != 0)
+                        throw new Exception(serverProcess.ExitCode.ToString());
                 }
                 catch (Exception e)
                 {
@@ -65,7 +65,7 @@ namespace serverChooser
                     if (succes)
                     {
                         sv.AppendRawText("Server stopped succesfully!");
-                        _disposables.Remove(buildProcess);
+                        _disposables.Remove(serverProcess);
                     }
 
                 }

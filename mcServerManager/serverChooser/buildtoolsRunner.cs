@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using static serverChooser.filepaths;
+using static MCServerManager.filepaths;
 
-namespace serverChooser
+namespace MCServerManager
 {
     class buildtoolsRunner
     {
@@ -17,6 +17,8 @@ namespace serverChooser
         private readonly HashSet<IDisposable> _disposables = new HashSet<IDisposable>();
 
         WebClient downloader = new WebClient();
+
+        public Process buildProcess;
 
         public buildtoolsRunner(buildtools form)
         {
@@ -30,7 +32,7 @@ namespace serverChooser
             downloader.DownloadFile("https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar", path.buildtools);
             if (File.Exists(path.buildtools))
             {
-                using (Process buildProcess = new Process())
+                using (buildProcess = new Process())
                 {
                     _disposables.Add(buildProcess);
                     try
@@ -43,7 +45,7 @@ namespace serverChooser
                         buildProcess.StartInfo.RedirectStandardError = true;
                         buildProcess.StartInfo.WorkingDirectory = dir.server;
                         buildProcess.StartInfo.Arguments =
-                            "--login -c \"git config --global --replace-all core.autocrlf true & ../../java/bin/java.exe -jar BuildTools.jar\"";
+                            "--login -c \"git config --global --replace-all core.autocrlf true & " + path.java + " -jar BuildTools.jar\"";
                         buildProcess.OutputDataReceived += (sender, args) => bt.AppendRawText(args.Data);
                         buildProcess.ErrorDataReceived += (sender, args) => bt.AppendRawText(args.Data);
                         buildProcess.Start();

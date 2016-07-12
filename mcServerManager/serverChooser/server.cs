@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
-using static serverChooser.filepaths;
+using static MCServerManager.filepaths;
 using System.Threading;
 using System.IO;
 
-namespace serverChooser
+namespace MCServerManager
 {
     using System.Runtime.InteropServices;
 
@@ -67,6 +67,7 @@ namespace serverChooser
         public void FormClosedEventHandler(object sender, FormClosedEventArgs e)
         {
             thread.Abort();
+            runner.serverProcess.Kill();
         }
 
         private void sendInput(object sender, KeyEventArgs e)

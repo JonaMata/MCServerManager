@@ -1,4 +1,4 @@
-﻿namespace serverChooser
+﻿namespace MCServerManager
 {
     partial class buildtools
     {
@@ -47,7 +47,7 @@
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.buildtoolsOutput);
             this.Name = "buildtools";
-            this.Text = "buildtools";
+            this.Text = "Updater";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormClosedEventHandler);
             this.ResumeLayout(false);
 

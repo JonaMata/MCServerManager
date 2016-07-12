@@ -12,7 +12,6 @@ using System.Net;
 using System.Diagnostics;
 using Ookii.Dialogs;
 using static MCServerManager.filepaths;
-using static MCServerManager.settings;
 
 namespace MCServerManager
 {
@@ -23,7 +22,6 @@ namespace MCServerManager
         String name;
         public static buildtools bt;
         public static server sv;
-        public static settings st;
 
         public MCServerManager()
         {
